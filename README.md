@@ -1,5 +1,7 @@
 README for Face Recognition Code
 This code uses a pre-trained Keras model for classifying images captured from a webcam. The goal of the program is to continuously capture frames from the webcam, preprocess them, and predict the class of the object or person in the frame, displaying the predicted class and its confidence score.
+![Uploading image.png…]()
+![Uploading image.png…]()
 
 Requirements:
 Python 3.x (Recommended version: 3.7 or higher)

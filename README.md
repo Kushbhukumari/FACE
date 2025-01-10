@@ -62,6 +62,93 @@ Cat
 Conclusion:
 This code provides a basic framework for using a webcam for object or face recognition with Keras. By tweaking the model and labels, you can adapt this to various real-time classification tasks.
 
+Here’s a structured step-by-step guide for building a Face Recognition System using a model trained with Google Teachable Machine and integrating it with Python:
+
+1. Collect and Prepare Data
+Use Google Teachable Machine to collect images for different individuals.
+Capture images from various angles, lighting conditions, and expressions for better accuracy.
+Export the trained model in TensorFlow Lite or Keras format.
+2. Set Up the Python Environment
+Install necessary Python libraries:
+bash
+Copy code
+pip install opencv-python tensorflow numpy
+3. Load the Trained Model in Python
+Use TensorFlow to load the exported model.
+Example:
+python
+Copy code
+import tensorflow as tf
+
+model = tf.keras.models.load_model('path_to_model')
+4. Capture Real-Time Video Input
+Use OpenCV to access the webcam.
+python
+Copy code
+import cv2
+
+cap = cv2.VideoCapture(0)  # Access webcam
+while True:
+    ret, frame = cap.read()
+    cv2.imshow('Webcam', frame)
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+cap.release()
+cv2.destroyAllWindows()
+5. Preprocess Captured Frames
+Resize and normalize the frames as per the model’s input requirements.
+python
+Copy code
+import numpy as np
+
+def preprocess(frame):
+    resized_frame = cv2.resize(frame, (224, 224))  # Resize to model input
+    normalized_frame = resized_frame / 255.0       # Normalize pixel values
+    return np.expand_dims(normalized_frame, axis=0)  # Add batch dimension
+6. Perform Face Detection (Optional but Recommended)
+Use a face detector to focus on faces only.
+python
+Copy code
+face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+
+def detect_face(frame):
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    faces = face_cascade.detectMultiScale(gray, 1.1, 4)
+    return faces
+7. Run Face Recognition Prediction
+Predict the identity of detected faces.
+python
+Copy code
+while True:
+    ret, frame = cap.read()
+    faces = detect_face(frame)
+
+    for (x, y, w, h) in faces:
+        face = frame[y:y+h, x:x+w]
+        processed_face = preprocess(face)
+        prediction = model.predict(processed_face)
+        
+        label = np.argmax(prediction)
+        confidence = np.max(prediction)
+
+        cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 0, 0), 2)
+        cv2.putText(frame, f'Person {label}: {confidence:.2f}', (x, y-10),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.9, (255, 0, 0), 2)
+
+    cv2.imshow('Face Recognition', frame)
+
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+cap.release()
+cv2.destroyAllWindows()
+8. Optimize and Test the System
+Test with different lighting and angles.
+Fine-tune by collecting more training data if necessary.
+9. (Optional) Deploy the Model
+Convert the model to TensorFlow Lite for mobile deployment.
+Deploy to Raspberry Pi for edge devices.
 
 
 

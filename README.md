@@ -173,7 +173,7 @@ while True:
 
 camera.release()
 cv2.destroyAllWindows()
-"C:\Users\91935\OneDrive\Pictures\Screenshots\Screenshot 2025-01-07 212613.png"
+"C:/Users/91935/OneDrive/Pictures/Screenshots/Screenshot 2025-01-07 212613.png"
 
 8. Optimize and Test the System
 Test with different lighting and angles.
@@ -181,7 +181,7 @@ Fine-tune by collecting more training data if necessary.
 9. (Optional) Deploy the Model
 Convert the model to TensorFlow Lite for mobile deployment.
 Deploy to Raspberry Pi for edge devices.
-"C:\Users\91935\OneDrive\Pictures\Screenshots\Screenshot 2025-01-07 212253.png"
+"C:/Users/91935/OneDrive/Pictures/Screenshots/Screenshot 2025-01-07 212253.png"
 
 
 
